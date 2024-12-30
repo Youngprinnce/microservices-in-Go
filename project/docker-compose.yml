@@ -18,3 +18,45 @@ services:
       mode: replicated
       replicas: 1
 
+
+  # Name of the service
+  authentification-service:
+    # Path to the Dockerfile
+    build: 
+      context: ./../authentication-service
+      dockerfile: ./../authentication-service/authentication-service.dockerfile
+    # Restart policy (always, unless-stopped, on-failure)
+    restart: always
+    # Port mapping (map port 8081 on our local machine to port 80 in the container)
+    ports:
+      - "8081:80"
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+    # Environment variables
+    environment:
+      DSN: "host=postgres port=5432 user=postgres password=password dbname=users sslmode=disable timezone=GMT+1 connect_timeout=5"
+
+
+  # Name of the service
+  postgres:
+    # Image to use
+    image: 'postgres:14.2'
+    # Port mapping (map port 5432 on our local machine to port 5432 in the container)
+    ports:
+      - "5432:5432"
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+    # Environment variables
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    # Volumes (map the /var/lib/postgresql/data/ directory in the container to the ./db-data/postgres/ directory on our local machine)
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
+
+
