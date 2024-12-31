@@ -26,7 +26,7 @@ services:
       dockerfile: ./../logger-service/logger-service.dockerfile
     # Restart policy (always, unless-stopped, on-failure)
     restart: always
-    # Port mapping (map port 8082 on our local machine to port 80 in the container)
+    # Port mapping (map port 8082 on our local machine to port 80 in the container) because we use the port of the docker not local machine port
     ports:
       - "8082:80"
     # Deploy only one instance of the service
