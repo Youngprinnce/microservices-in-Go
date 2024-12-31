@@ -18,6 +18,22 @@ services:
       mode: replicated
       replicas: 1
 
+  # Name of the service
+  logger-service:
+    # Path to the Dockerfile
+    build: 
+      context: ./../logger-service
+      dockerfile: ./../logger-service/logger-service.dockerfile
+    # Restart policy (always, unless-stopped, on-failure)
+    restart: always
+    # Port mapping (map port 8082 on our local machine to port 80 in the container)
+    ports:
+      - "8082:80"
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+
 
   # Name of the service
   authentication-service:
