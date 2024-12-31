@@ -60,3 +60,24 @@ services:
       - ./db-data/postgres/:/var/lib/postgresql/data/
 
 
+  # Name of the service
+  mongo:
+    # Image to use
+    image: 'mongo:4.2.16-bionic'
+    # Port mapping (map port 27017 on our local machine to port 27017 in the container)
+    ports:
+      - "27017:27017"
+    # Environment variables
+    environment:
+      MONGO_INITDB_DATABASE: logs
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+    # Volumes (map the /data/db/ directory in the container to the ./db-data/mongo/ directory on our local machine)
+    volumes:
+      - ./db-data/mongo/:/data/db/
+
+
