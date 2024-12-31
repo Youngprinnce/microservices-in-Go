@@ -20,7 +20,7 @@ services:
 
 
   # Name of the service
-  authentification-service:
+  authentication-service:
     # Path to the Dockerfile
     build: 
       context: ./../authentication-service
