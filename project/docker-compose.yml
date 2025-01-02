@@ -96,4 +96,12 @@ services:
     volumes:
       - ./db-data/mongo/:/data/db/
 
+  # Name of the service
+  mailhog:
+    # Image to use
+    image: 'mailhog/mailhog:latest'
+    # Port mapping (map port 1025 on our local machine to port 1025 in the container)
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
