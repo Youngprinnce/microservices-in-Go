@@ -96,6 +96,28 @@ services:
     volumes:
       - ./db-data/mongo/:/data/db/
 
+    # Name of the service
+  mailer-service:
+    # Path to the Dockerfile
+    build: 
+      context: ./../mail-service
+      dockerfile: ./../mail-service/mail-service.dockerfile
+    # Restart policy (always, unless-stopped, on-failure)
+    restart: always
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+    # Environment variables
+    environment:
+      MAIL_DOMAIN: localhost
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      FROM_NAME: "Ajiboye Adedotun"
+      MAIL_ENCRYPTION: none
+
   # Name of the service
   mailhog:
     # Image to use
