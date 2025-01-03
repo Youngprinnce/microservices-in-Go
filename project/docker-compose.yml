@@ -34,7 +34,6 @@ services:
       mode: replicated
       replicas: 1
 
-
   # Name of the service
   authentication-service:
     # Path to the Dockerfile
@@ -126,4 +125,23 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+
+  # Name of the service
+  rabbitmq:
+    # Image to use
+    image: 'rabbitmq:3.9-alpine'
+    # Port mapping (map port 5672 on our local machine to port 5672 in the container)
+    ports:
+      - "5672:5672"
+    # Deploy only one instance of the service
+    deploy:
+      mode: replicated
+      replicas: 1
+    # Environment variables
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: password
+    # Volumes (map the /var/lib/rabbitmq/ directory in the container to the ./db-data/rabbitmq/ directory on our local machine)
+    volumes:
+      - ./db-data/rabbitmq/:/var/lib/rabbitmq/
 
