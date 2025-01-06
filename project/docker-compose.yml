@@ -145,3 +145,13 @@ services:
     volumes:
       - ./db-data/rabbitmq/:/var/lib/rabbitmq/
 
+  # Name of the service
+  listener-service:
+    # Path to the Dockerfile
+    build: 
+      context: ./../listener-service
+      dockerfile: ./../listener-service/listener-service.dockerfile
+    # Restart policy (always, unless-stopped, on-failure)
+    deploy:
+      mode: replicated
+      replicas: 1

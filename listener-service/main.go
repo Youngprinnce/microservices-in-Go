@@ -44,7 +44,7 @@ func connect() (*amqp.Connection, error) {
 
 	// don't continue uintil rabbit is ready
 	for {
-		c, err := amqp.Dial("amqp://rabbitmq:password@localhost")
+		c, err := amqp.Dial("amqp://rabbitmq:password@rabbitmq")
 		if err != nil {
 			fmt.Println("RabbitMQ not yet ready...")
 			counts++
