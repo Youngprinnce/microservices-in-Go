@@ -10,13 +10,11 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Type for recieving event from a queue
 type Consumer struct {
-	conn      *amqp.Connection
+	conn *amqp.Connection
 	queueName string
 }
 
-// Create an instance of the consumer
 func NewConsumer(conn *amqp.Connection) (Consumer, error) {
 	consumer := Consumer{
 		conn: conn,
@@ -39,13 +37,11 @@ func (consumer *Consumer) setup() error {
 	return declareExchange(channel)
 }
 
-// Type for pushing event to the queue
 type Payload struct {
 	Name string `json:"name"`
 	Data string `json:"data"`
 }
 
-// Listen to topics on the queue
 func (consumer *Consumer) Listen(topics []string) error {
 	ch, err := consumer.conn.Channel()
 	if err != nil {
@@ -58,7 +54,6 @@ func (consumer *Consumer) Listen(topics []string) error {
 		return err
 	}
 
-	// Bind the channels to each topic
 	for _, s := range topics {
 		ch.QueueBind(
 			q.Name,
@@ -73,13 +68,11 @@ func (consumer *Consumer) Listen(topics []string) error {
 		}
 	}
 
-	// look for messages
 	messages, err := ch.Consume(q.Name, "", true, false, false, false, nil)
 	if err != nil {
 		return err
 	}
 
-	// Consume everything from rabbitMq till exist
 	forever := make(chan bool)
 	go func() {
 		for d := range messages {
@@ -108,6 +101,8 @@ func handlePayload(payload Payload) {
 	case "auth":
 		// authenticate
 
+	// you can have as many cases as you want, as long as you write the logic
+
 	default:
 		err := logEvent(payload)
 		if err != nil {
@@ -121,7 +116,6 @@ func logEvent(entry Payload) error {
 
 	logServiceURL := "http://logger-service/log"
 
-	// call the service
 	request, err := http.NewRequest("POST", logServiceURL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
@@ -130,6 +124,7 @@ func logEvent(entry Payload) error {
 	request.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
+
 	response, err := client.Do(request)
 	if err != nil {
 		return err
@@ -139,6 +134,6 @@ func logEvent(entry Payload) error {
 	if response.StatusCode != http.StatusAccepted {
 		return err
 	}
-
+	
 	return nil
 }
