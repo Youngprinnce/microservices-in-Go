@@ -7,9 +7,7 @@ import (
 	"time"
 )
 
-type RPCServer struct {
-
-}
+type RPCServer struct {}
 
 type RPCPayload struct {
 	Name string

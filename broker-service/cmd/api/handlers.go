@@ -250,7 +250,7 @@ func (app *Config) logItemViaRPC(w http.ResponseWriter, l LogPayload) {
 
 	var payload jsonResponse
 	payload.Error = false
-	payload.Data = result
+	payload.Message = result
 
 	app.writeJSON(w, http.StatusAccepted, payload)
 }
