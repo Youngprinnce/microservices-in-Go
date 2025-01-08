@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+// Declare the package name
+package logs;
+
+option go_package = "/logs";
+
+// type of data that will be logged
+message Log{
+    string name = 1;
+    string data = 2;
+}
+
+// Request message to log data
+message LogRequest{
+    Log logEntry = 1;
+}
+
+message LogResponse{
+    string result = 1;
+}
+
+service LogService{
+    rpc WriteLog(LogRequest) returns (LogResponse);
+}
