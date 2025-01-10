@@ -4,8 +4,8 @@ services:
 
   broker-service:
     build: 
-      context: ./../broker-service
-      dockerfile: ./../broker-service/broker-service.dockerfile
+      context: broker-service
+      dockerfile: broker-service.dockerfile
     restart: always
     ports:
       - "8080:80"
@@ -17,8 +17,8 @@ services:
   logger-service:
     # Path to the Dockerfile
     build: 
-      context: ./../logger-service
-      dockerfile: ./../logger-service/logger-service.dockerfile
+      context: logger-service
+      dockerfile: logger-service.dockerfile
     # Restart policy (always, unless-stopped, on-failure)
     restart: always
     # Port mapping (map port 8082 on our local machine to port 80 in the container) because we use the port of the docker not local machine port
@@ -31,8 +31,8 @@ services:
 
   authentication-service:
     build: 
-      context: ./../authentication-service
-      dockerfile: ./../authentication-service/authentication-service.dockerfile
+      context: authentication-service
+      dockerfile: authentication-service.dockerfile
     restart: always
     ports:
       - "8081:80"
@@ -72,8 +72,8 @@ services:
 
   mailer-service:
     build: 
-      context: ./../mail-service
-      dockerfile: ./../mail-service/mail-service.dockerfile
+      context: mail-service
+      dockerfile: mail-service.dockerfile
     restart: always
     deploy:
       mode: replicated
@@ -108,8 +108,8 @@ services:
 
   listener-service:
     build: 
-      context: ./../listener-service
-      dockerfile: ./../listener-service/listener-service.dockerfile
+      context: listener-service
+      dockerfile: listener-service.dockerfile
     deploy:
       mode: replicated
       replicas: 1
